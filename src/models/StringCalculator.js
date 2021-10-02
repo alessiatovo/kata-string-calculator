@@ -9,9 +9,11 @@ module.exports =  class StringCalculator{
         if(this.string_numbers == ""){
             return 0
         } else {
-            let numbers = this.string_numbers.split(',');
-            for(const num of numbers){
-                sum += parseInt(num);
+            const regex = /\d+/g;
+
+            let numbers = this.string_numbers.match(regex).map(Number);
+            for(var num of numbers){
+                sum += num;
             }
         }
         
