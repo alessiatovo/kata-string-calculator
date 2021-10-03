@@ -25,7 +25,7 @@ module.exports =  class StringCalculator{
                     if (groupIndex == 0){
                         if (num < 0){
                             negative_nums.push(num);
-                        } else {
+                        } else if (num < 1000) {
                             sum += num;
                         }
                     }
