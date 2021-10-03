@@ -9,14 +9,32 @@ module.exports =  class StringCalculator{
         if(this.string_numbers == ""){
             return 0
         } else {
-            const regex = /\d+/g;
+            const regex = /-?[0-9]\d*(\.\d+)?/g;
 
-            let numbers = this.string_numbers.match(regex).map(Number);
-            for(var num of numbers){
-                sum += num;
+            var negative_nums = [];
+            let m;
+
+            while ((m = regex.exec(this.string_numbers)) !== null) {
+                // This is necessary to avoid infinite loops with zero-width matches
+                if (m.index === regex.lastIndex) {
+                    regex.lastIndex++;
+                }
+
+                m.forEach((match, groupIndex) => {
+                    let num = parseInt(match);
+                    if (groupIndex == 0){
+                        if (num < 0){
+                            negative_nums.push(num);
+                        } else {
+                            sum += num;
+                        }
+                    }
+                });
             }
-        }
-        
+            if( negative_nums.length > 0){
+                throw `Negatives not allowed: ${negative_nums}`;
+            }
+        }   
         return sum;
     }
 }
