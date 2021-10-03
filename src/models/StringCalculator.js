@@ -1,20 +1,20 @@
-module.exports =  class StringCalculator{
+const StringCalculator = {
+    stringNumbers: null,
 
-    constructor(string_numbers){
-        this.string_numbers = string_numbers;
-    }
-
-   add(){
-       let sum = 0;
-        if(this.string_numbers == ""){
+    init(stringNumbers) {
+        this.stringNumbers = stringNumbers;
+    },
+    add() { 
+        let sum = 0;
+        if(this.stringNumbers === ""){
             return 0
         } else {
             const regex = /-?[0-9]\d*(\.\d+)?/g;
 
-            var negative_nums = [];
+            let negativeNums = [];
             let m;
 
-            while ((m = regex.exec(this.string_numbers)) !== null) {
+            while ((m = regex.exec(this.stringNumbers)) !== null) {
                 // This is necessary to avoid infinite loops with zero-width matches
                 if (m.index === regex.lastIndex) {
                     regex.lastIndex++;
@@ -22,20 +22,22 @@ module.exports =  class StringCalculator{
 
                 m.forEach((match, groupIndex) => {
                     let num = parseInt(match);
-                    if (groupIndex == 0){
+                    if (groupIndex === 0){
                         if (num < 0){
-                            negative_nums.push(num);
+                            negativeNums.push(num);
                         } else if (num < 1000) {
                             sum += num;
                         }
                     }
                 });
             }
-            if( negative_nums.length > 0){
-                throw `Negatives not allowed: ${negative_nums}`;
+            if (negativeNums.length > 0) {
+                throw `Negatives not allowed: ${negativeNums}`;
             }
         }   
         return sum;
     }
+
 }
 
+module.exports = StringCalculator;
